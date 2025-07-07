@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jul 11 21:25:31 2023
+
+@author: shefai
+"""
+from sklearn.neural_network import MLPClassifier
+
+class MLP:
+    def __init__(self, hidden_layer_sizes = (50, 20), solver = 'adam', alpha = 0.0001,
+                 learning_rate = 'constant', learning_rate_init = 0.0001, max_iter = 5):
+        
+        self.hidden_layer_sizes = hidden_layer_sizes
+        self.solver = solver
+        self.alpha = alpha
+        self.learning_rate = learning_rate
+        self.learning_rate_init = learning_rate_init
+        self.max_iter = max_iter
+
+    def fit(self, X, y):
+        
+        model = MLPClassifier(hidden_layer_sizes=self.hidden_layer_sizes, activation='relu', 
+                              solver=self.solver, max_iter=self.max_iter, alpha=self.alpha, learning_rate= self.learning_rate,
+                              learning_rate_init=self.learning_rate_init)
+
+        # Train the model
+        model.fit(X, y)       
+        self.model = model
+        
+        
+    def predict(self, X):
+
+        y_predict = self.model.predict(X)
+        return y_predict
+    
+    def predict_proba(self, X):
+
+        y_predict_prob = self.model.predict_proba(X)
+        return y_predict_prob
+        
+    
+    def clear(self):
+        pass
+    
+    
+    
+    
+    
+    
+    
+    
+    # for i, (inputs, targets) in enumerate(test_dl):
+    #     # evaluate the model on the test set
+    #     yhat = model(inputs)
+    #     # retrieve numpy array
+    #     yhat = yhat.detach().numpy()
+    #     actual = targets.numpy()
+    #     actual = actual.reshape((len(actual), 1))
+    #     # round to class values
+    #     yhat = yhat.round()
+    #     # store
+    #     predictions.append(yhat)
+    #     actuals.append(actual)
+    # predictions, actuals = vstack(predictions), vstack(actuals)
+    # # calculate accuracy
+    # acc = accuracy_score(actuals, predictions)
+    # return acc
+    
+    
+    
+    
+    
+    
+    
+    
