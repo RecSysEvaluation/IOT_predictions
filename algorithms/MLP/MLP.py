@@ -5,8 +5,9 @@ Created on Tue Jul 11 21:25:31 2023
 @author: shefai
 """
 from sklearn.neural_network import MLPClassifier
+from sklearn.base import BaseEstimator, ClassifierMixin
 
-class MLP:
+class MLP(BaseEstimator, ClassifierMixin):
     def __init__(self, hidden_layer_sizes = (50, 20), solver = 'adam', alpha = 0.0001,
                  learning_rate = 'constant', learning_rate_init = 0.0001, max_iter = 5):
         
@@ -41,30 +42,6 @@ class MLP:
     
     def clear(self):
         pass
-    
-    
-    
-    
-    
-    
-    
-    
-    # for i, (inputs, targets) in enumerate(test_dl):
-    #     # evaluate the model on the test set
-    #     yhat = model(inputs)
-    #     # retrieve numpy array
-    #     yhat = yhat.detach().numpy()
-    #     actual = targets.numpy()
-    #     actual = actual.reshape((len(actual), 1))
-    #     # round to class values
-    #     yhat = yhat.round()
-    #     # store
-    #     predictions.append(yhat)
-    #     actuals.append(actual)
-    # predictions, actuals = vstack(predictions), vstack(actuals)
-    # # calculate accuracy
-    # acc = accuracy_score(actuals, predictions)
-    # return acc
     
     
     

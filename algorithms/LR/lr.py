@@ -6,10 +6,11 @@ Created on Sun Jul  9 15:34:57 2023
 """
 from sklearn.linear_model import LogisticRegression
 import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
 
 # l2 solver support solvers: sag, saga, lbfgs
 # [0.001, 0.01, 0.1, 1, 10, 100]
-class LR:
+class LR(BaseEstimator, ClassifierMixin):
     def __init__(self, solver = "lbfgs", penalty = "l2", C = 100):
         self.solver = solver
         self.penalty = penalty

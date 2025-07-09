@@ -5,14 +5,14 @@ Created on Sun Jul  9 15:34:57 2023
 @author: shefai
 """
 from sklearn.naive_bayes import GaussianNB
-import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
 
-class NB:
+class NB(BaseEstimator, ClassifierMixin):
     def __init__(self, var_smoothing = 0.000001):
         self.var_smoothing = var_smoothing
         
     def fit(self, X, y):
-        model = GaussianNB()
+        model = GaussianNB(var_smoothing=self.var_smoothing)
         model.fit(X, y)
         self.model = model
         

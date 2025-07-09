@@ -3,7 +3,7 @@ from algorithms.XGBoost.XGBoost import *
 
 
 xgbounds = {
-    "n_estimators": (100, 1000),           # Integer
+    "n_estimators": (50, 500),           # Integer
     "max_depth": (3, 15),                  # Integer
     "learning_rate": (0.01, 0.3),          # Float
     "subsample": (0.5, 1.0),               # Float

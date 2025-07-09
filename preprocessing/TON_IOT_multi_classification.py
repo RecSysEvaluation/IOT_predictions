@@ -92,7 +92,6 @@ def data_load(path, name):
     combine_num_cat = combine_num_cat.dropna()
     print(combine_num_cat.shape)
     
-    
     y = combine_num_cat['label']
     del combine_num_cat['label']
     X = combine_num_cat
