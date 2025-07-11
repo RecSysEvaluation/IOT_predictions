@@ -8,12 +8,12 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import auc
 
 
-class Acc:
+class Accuracy:
     def __init__(self):
         a = 5
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         measure = accuracy_score(y_actual, y_predict)
         self.measure = np.round(measure, decimals = 4)
         
@@ -26,7 +26,7 @@ class Precision:
     def __init__(self):
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         measure = precision_score(y_actual, y_predict)
         self.measure = np.round(measure, decimals = 4)
         
@@ -38,7 +38,7 @@ class Recall:
     def __init__(self):
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         measure = recall_score(y_actual, y_predict)
         self.measure = np.round(measure, decimals = 4)
         
@@ -50,7 +50,7 @@ class F1_score:
     def __init__(self):
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         measure = f1_score(y_actual, y_predict)
         self.measure = np.round(measure, decimals = 4)
         
@@ -62,7 +62,7 @@ class Roc_Auc_score:
     def __init__(self):
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         measure = roc_auc_score(y_actual, y_predict)
         self.measure = np.round(measure, decimals = 4)
         
@@ -74,7 +74,7 @@ class Precision_Recall_score:
     def __init__(self):
         pass
     
-    def measure(self, y_actual, y_predict):
+    def compute(self, y_actual, y_predict):
         lr_precision, lr_recall, _ = precision_recall_curve(y_actual, y_predict)
         measure = auc(lr_recall, lr_precision)
         self.measure = np.round(measure, decimals = 4)

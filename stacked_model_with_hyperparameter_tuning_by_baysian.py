@@ -31,12 +31,36 @@ X, y = data_load(DATA_PATH, data_name)
 X_train, X_test, y_train, y_test = split_data_train_test(X, y)
 
 
-############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR DT #################################
+
 INTIAL_POINTS = 5
 N_ITERATIONS = 50
 cv_strategy = StratifiedKFold(n_splits=5)
 
+############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR MLP #################################
+opt_func = partial(optimize_mlp, X = X_train, y = y_train, cv = cv_strategy)
+optimizer = BayesianOptimization(
+    f=opt_func,
+    pbounds=MLPpbounds,
+    random_state=42,
+    verbose=2
+)
 
+optimizer.maximize(init_points= INTIAL_POINTS, n_iter=N_ITERATIONS)
+mLP_optimal_hyperparameter_values = optimizer.max
+
+hidden1 = round(mLP_optimal_hyperparameter_values["params"]["units1"])
+hidden2 = round(mLP_optimal_hyperparameter_values["params"]["units2"])
+alpha = mLP_optimal_hyperparameter_values["params"]["alpha"]
+learning_rate = lr_map[round(mLP_optimal_hyperparameter_values["params"]["learning_rate"])]
+learning_rate_init = mLP_optimal_hyperparameter_values["params"]["learning_rate_init"]
+max_iter = round(mLP_optimal_hyperparameter_values["params"]["max_iter"])
+
+
+models_object_dict["MLP"] = MLP(hidden_layer_sizes = (hidden1, hidden2), alpha = alpha,
+                 learning_rate = learning_rate, learning_rate_init = learning_rate_init, max_iter = max_iter)
+
+
+############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR DT #################################
 opt_func = partial(optimize_dtree, X= X_train, y=y_train, cv=cv_strategy)
 optimizer = BayesianOptimization(
     f=opt_func,
@@ -96,29 +120,7 @@ min_child_samples = round(lightBoost_optimal_hyperparameter_values['params']["mi
 models_object_dict["LightB"] = LightB(n_estimators = n_estimators, learning_rate = learning_rate, max_depth = max_depth, 
                  num_leaves = num_leaves, min_child_samples = min_child_samples)
 
-############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR MLP #################################
-opt_func = partial(optimize_mlp, X = X_train, y = y_train, cv = cv_strategy)
-optimizer = BayesianOptimization(
-    f=opt_func,
-    pbounds=MLPpbounds,
-    random_state=42,
-    verbose=2
-)
 
-optimizer.maximize(init_points= INTIAL_POINTS, n_iter=N_ITERATIONS)
-mLP_optimal_hyperparameter_values = optimizer.max
-
-hidden1 = round(mLP_optimal_hyperparameter_values["params"]["units1"])
-hidden2 = round(mLP_optimal_hyperparameter_values["params"]["units2"])
-solver = solver_map[round(mLP_optimal_hyperparameter_values["params"]["solver"])]
-alpha = mLP_optimal_hyperparameter_values["params"]["alpha"]
-learning_rate = lr_map[round(mLP_optimal_hyperparameter_values["params"]["learning_rate"])]
-learning_rate_init = mLP_optimal_hyperparameter_values["params"]["learning_rate_init"]
-max_iter = round(mLP_optimal_hyperparameter_values["params"]["max_iter"])
-
-
-models_object_dict["MLP"] = MLP(hidden_layer_sizes = (hidden1, hidden2), solver = solver, alpha = alpha,
-                 learning_rate = learning_rate, learning_rate_init = learning_rate_init, max_iter = max_iter)
 
 ############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR LR #################################
 opt_func = partial(optimize_lr, X = X_train, y = y_train, cv = cv_strategy)
@@ -151,6 +153,7 @@ nb_optimal_hyperparameter_values = optimizer.max
 models_object_dict["NB"] = NB(var_smoothing = nb_optimal_hyperparameter_values['params']['var_smoothing'])
 
 ############################# FIND OPTIMAL HYPER-PARAMETER VALUES FOR KNN #################################
+"""
 opt_func = partial(optimize_knn, X = X_train, y = y_train, cv = cv_strategy)
 optimizer = BayesianOptimization(
     f=opt_func,
@@ -165,7 +168,7 @@ knn_optimal_hyperparameter_values = optimizer.max
 n_neighbors = round(knn_optimal_hyperparameter_values["params"]["n_neighbors"])
 weights = weights_map[round(knn_optimal_hyperparameter_values["params"]["weights"])]
 models_object_dict["KNN"] = kNN(n_neighbors = n_neighbors, weights  = weights)
-
+"""
 ############################# ACCURACY MEASURES #################################
 accuracy_objects_dict = dict()
 accuracy_objects_dict["Accuracy"] = Acc()

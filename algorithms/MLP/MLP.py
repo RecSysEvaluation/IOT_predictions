@@ -8,11 +8,10 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.base import BaseEstimator, ClassifierMixin
 
 class MLP(BaseEstimator, ClassifierMixin):
-    def __init__(self, hidden_layer_sizes = (50, 20), solver = 'adam', alpha = 0.0001,
+    def __init__(self, hidden_layer_sizes = (50, 20), alpha = 0.0001,
                  learning_rate = 'constant', learning_rate_init = 0.0001, max_iter = 5):
         
         self.hidden_layer_sizes = hidden_layer_sizes
-        self.solver = solver
         self.alpha = alpha
         self.learning_rate = learning_rate
         self.learning_rate_init = learning_rate_init
@@ -21,7 +20,7 @@ class MLP(BaseEstimator, ClassifierMixin):
     def fit(self, X, y):
         
         model = MLPClassifier(hidden_layer_sizes=self.hidden_layer_sizes, activation='relu', 
-                              solver=self.solver, max_iter=self.max_iter, alpha=self.alpha, learning_rate= self.learning_rate,
+                              solver='adam', max_iter=self.max_iter, alpha=self.alpha, learning_rate= self.learning_rate,
                               learning_rate_init=self.learning_rate_init)
 
         # Train the model

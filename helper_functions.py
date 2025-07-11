@@ -7,13 +7,17 @@ from pathlib import Path
 
 
 
-def k_fold_return_meta_features(X_train, y_train, models_object_dict, accuracy_objects_dict, n_splits = 5, random_state = 42, defaultHyperparameters = False):
+def k_fold_return_meta_features(X_train, y_train, models_object_dict, accuracy_objects_dict, n_splits = 5, random_state = 42, defaultHyperparameters = False, binary = False):
     X_train = X_train.to_numpy()
     y_train = y_train.to_numpy()
     
     if defaultHyperparameters:
-        path = Path("results/defaultHyperparameters/")
-        path.mkdir(parents=True, exist_ok=True)
+        if binary:
+            path = Path("results/binary/defaultHyperparameters/")
+            path.mkdir(parents=True, exist_ok=True)
+        else:
+            path = Path("results/defaultHyperparameters/")
+            path.mkdir(parents=True, exist_ok=True)
     else:
         path = Path("results/optimalHyperparameters/")
         path.mkdir(parents=True, exist_ok=True)
@@ -72,7 +76,7 @@ def k_fold_return_meta_features(X_train, y_train, models_object_dict, accuracy_o
 
 
 
-def return_metafeatures_for_single_splits(X_train, y_train, X_test, y_test, models_object_dict, accuracy_objects_dict, defaultHyperparameters = False):
+def return_metafeatures_for_single_splits(X_train, y_train, X_test, y_test, models_object_dict, accuracy_objects_dict, defaultHyperparameters = False, binary = False):
     X_train = X_train.to_numpy()
     y_train = y_train.to_numpy()
 
@@ -81,8 +85,12 @@ def return_metafeatures_for_single_splits(X_train, y_train, X_test, y_test, mode
 
     
     if defaultHyperparameters:
-        path = Path("results/defaultHyperparameters/")
-        path.mkdir(parents=True, exist_ok=True)
+        if binary:
+            path = Path("results/binary/defaultHyperparameters/")
+            path.mkdir(parents=True, exist_ok=True)
+        else:
+            path = Path("results/defaultHyperparameters/")
+            path.mkdir(parents=True, exist_ok=True)
     else:
         path = Path("results/optimalHyperparameters/")
         path.mkdir(parents=True, exist_ok=True)
